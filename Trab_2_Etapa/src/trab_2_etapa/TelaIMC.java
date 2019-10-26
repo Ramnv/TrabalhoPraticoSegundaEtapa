@@ -47,6 +47,12 @@ public class TelaIMC extends javax.swing.JFrame {
 
         jLabelPeso.setText("Peso(Kg):");
 
+        jTextFieldAltura.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldAlturaActionPerformed(evt);
+            }
+        });
+
         jTextFieldPeso.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextFieldPesoActionPerformed(evt);
@@ -89,13 +95,11 @@ public class TelaIMC extends javax.swing.JFrame {
                                 .addGap(22, 22, 22)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabelAltura)
-                                    .addComponent(jLabelPeso)))
+                                    .addComponent(jLabelPeso)
+                                    .addComponent(jButtonLimpar)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(36, 36, 36)
-                                .addComponent(jLabelResultado))
-                            .addGroup(layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jButtonLimpar)))
+                                .addComponent(jLabelResultado)))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButtonEnviar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -120,7 +124,7 @@ public class TelaIMC extends javax.swing.JFrame {
                             .addComponent(jLabelPeso)
                             .addComponent(jTextFieldPeso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jButtonEnviar)
                             .addComponent(jButtonLimpar))
                         .addGap(39, 39, 39)
@@ -140,29 +144,50 @@ public class TelaIMC extends javax.swing.JFrame {
     private void jButtonLimparActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonLimparActionPerformed
         jTextFieldAltura.setText("");
         jTextFieldPeso.setText("");
+        jTextPaneResultado.setText("");
     }//GEN-LAST:event_jButtonLimparActionPerformed
 
     private void jButtonEnviarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEnviarActionPerformed
+      boolean valido = true;
        Float altura; 
        Float peso; 
        Float imc;
-       altura = Float.parseFloat(jTextFieldAltura.getText());
-       peso = Float.parseFloat(jTextFieldPeso.getText()); 
-       if(altura < 0 ){
-           JOptionPane.showMessageDialog(null, "Altura informada inválida!!!");
+       
+       
+       if( jTextFieldAltura.getText().length() <= 0 ){
+           JOptionPane.showMessageDialog(null, "Altura deve ser informada !!!");
+           jTextFieldAltura.requestFocus();
+           valido = false;
+            return;
        }
-       else if(peso <0 ){
-           JOptionPane.showMessageDialog(null, "Peso informado inválida!!!");
+       if( jTextFieldPeso.getText().length() <= 0){
+           JOptionPane.showMessageDialog(null, "Peso deve ser informado!!!");
+           jTextFieldPeso.requestFocus();
+           valido = false;
+            return;
        }
-       else {
+       if (valido) {
+          altura = Float.parseFloat(jTextFieldAltura.getText());
+            peso = Float.parseFloat(jTextFieldPeso.getText()); 
+            if(altura <= 0 ){
+                JOptionPane.showMessageDialog(null, "Altura inválida!!!");
+            }
+            else if(peso <= 0 ){
+                JOptionPane.showMessageDialog(null, "Peso inválido!!!");
+            }else{
            DecimalFormat df = new DecimalFormat("0.00");
            imc = peso / (altura * altura);
-           df.format(imc);
-           jTextPaneResultado.setText("IMC: " + imc);
+           
+           jTextPaneResultado.setText("IMC: " + df.format(imc));
+            }
        }
                
        
     }//GEN-LAST:event_jButtonEnviarActionPerformed
+
+    private void jTextFieldAlturaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldAlturaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldAlturaActionPerformed
 
     /**
      * @param args the command line arguments
